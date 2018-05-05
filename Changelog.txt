@@ -1,0 +1,18 @@
+1.0: First release
+1.1: Implemented tab auto-completion for Pixelmon. Previously, pressing tab while typing in the command caused minecraft to crash.
+1.11: Removed /spawn alias. It was overriding a server-side command to warp back to the server's spawn point.
+1.12: Fixed MimeJr information display. Because the code achieved case-insensitivity by capitalizing the first letter of the pokemon's name and lowercasing the rest, it was searching for "Mimejr" when the J in Jr needed to be capitalized.
+1.2: 
+  1) Rewrote a significant amount of the code. Separated biome-related operations into their own class, json parsing operations into their own class, and the pixelmon class is now separate instead of an inner class of the command. Cleaned up the code that parsed the spawn json files a bit and added more comments. Making Pixelmon into its own class should make it easier to develop additional functionality to display pixelmon item drops.
+  2) The mod no longer has the minecraft directory hardcoded. Instead, it uses a property to get the location of minecraft game and adds on folders after that. Hopefully this makes it compatible with Technic.
+1.21: The mod no longer crashes when it can't find or open the BetterSpawnerConfig or the Pixelmon jar file. Instead, the mod continues. When the command is used or attempts to autocomplete, it attempts to load the BetterSpawnerConfig or Pixelmon file again. If it continues to fail, it displays an error message in chat.
+1.5:
+  1) Performed more significant alterations to the code. The BiomeList class no longer exists and its functions and some additional enums were incorporated into an Enums class.
+  2) The mod now colors the results! Let me know if it looks horrible - it's easy to change things up.
+  3) When looking up a specific pixelmon, the mod now includes percentage chances of encounting that pixelmon. It's not perfect for every set of spawn conditions, but it should give a good idea how rare the pixelmon is in relation to other things that spawn in that biome.
+  4) The mod is now capable of taking a set of arguments and returning a list of pixelmon that spawn during all of those conditions, including the percentage chances of encounting them in relation to the other pixelmon returned from the command. The percentage chance will be more inaccurate the more general the tag set. For example, ["Mesa"] will be pretty inaccurate. ["Mesa", "Night", "Land"] will be considerably more accurate. For best results, search directly for your target pixelmon.
+  5) The mod now returns various error messages. For example, when sent incompatible tag sets or tags that aren't recognized by the command.
+
+1.5.1: Fixed a problem getting information for Pixelmon that exist in all biomes. Also added code to display an spawn chance for Pixelmon that show up in every biome. It's an averaging of all their spawn chances in all biomes.
+1.5.2: Fixed biomes and percentages being duplicated when a Pixelmon has multiple sets of spawn information. Cosmetic changes.
+1.5.3: Fixed some problems the code was having getting Pixelmon for Mesa (Bryce) biome.
