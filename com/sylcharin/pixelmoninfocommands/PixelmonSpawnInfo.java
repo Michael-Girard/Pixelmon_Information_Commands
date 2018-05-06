@@ -1,7 +1,6 @@
 package com.sylcharin.pixelmoninfocommands;
 
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -19,7 +18,7 @@ import java.util.*;
 /**
  * @author Sylcharin
  */
-@Mod(modid = "pixelmoninfocommands")
+@Mod(modid = "pixelmonspawninfo")
 public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
     private final List<String> ALIASES;
 
@@ -96,7 +95,6 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
                                 String results = getCommandResults(new String[]{biome}).toString();
                                 int pixelmonIndex = results.indexOf(pixelmon.getId());
                                 TreeMap<String, Double> tempRarities = new TreeMap<>();
-                                System.out.println(biome);
                                 tempRarities.put(biome, Double.valueOf(results.substring(results.indexOf("(", pixelmonIndex) + 3, results.indexOf(")", pixelmonIndex) - 3)));
                                 double accumulatedRarity = 0;
                                 for (Double biomeRarity : tempRarities.values()){
@@ -269,12 +267,12 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
 
     @Override
     public String getName() {
-        return "spawninfo";
+        return "Spawns";
     }
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/spawninfo [argument 1] [argument 2] ...\n" +
+        return "/spawns [argument 1] [argument 2] ...\n" +
                 "Arguments can be a Pixelmon name OR a group of tags containing biome names, weathers, or other pixelmon spawn conditions.\n" +
                 "Names with spaces should be separated by underscores. Eg: \"Mesa_Plateau_M\"";
     }
@@ -385,6 +383,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
         if (error){
             JSONHelper.buildJSONList();
             JSONHelper.buildPixelmonMap();
+            JSONHelper.buildDropList();
             error = false;
         }
         return error;
