@@ -76,8 +76,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
         });
 
         if (!matchSet.isEmpty()){
-            dropInfo.append("-----------\n").append("Pixelmon that drop \u00A7a").append(argument).append(":").append("\u00A7f\n");
-            dropInfo.append("\u00A7e\t");
+            dropInfo.append("-----------\n").append("Pixelmon that drop \u00A7a").append(argument).append(":").append("\u00A7f\n\u00A7e     ");
 
             Object[] matches = matchSet.toArray();
             for (int index = 1; index < matches.length + 1; index++) {
