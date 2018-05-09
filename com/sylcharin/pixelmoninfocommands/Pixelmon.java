@@ -1,6 +1,7 @@
 package com.sylcharin.pixelmoninfocommands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,10 +9,13 @@ public class Pixelmon implements Comparable{
     private String id;
     private Object[] spawnInfos;
     private List<HashMap<String, ArrayList<Object>>> information = new ArrayList<>();
+    private List<String>[] drops = new ArrayList[Enums.DropType.values().length];
 
     protected void init(){
-        for (HashMap<String, ArrayList<Object>> informationSet : JSONHelper.parseSpawnInfos(spawnInfos)){
-            information.add(informationSet);
+        information.addAll(Arrays.asList(JSONHelper.parseSpawnInfos(spawnInfos)));
+
+        for (int index = 0; index < Enums.DropType.values().length; index++) {
+            drops[index] = new ArrayList<>();
         }
     }
 
@@ -37,6 +41,18 @@ public class Pixelmon implements Comparable{
 
     public void setSpawnInfo(Object[] spawnInfos) {
         this.spawnInfos = spawnInfos;
+    }
+
+    public void addDrop(String drop, int rarity){
+        drops[rarity].add(drop);
+    }
+
+    public List[] getDrops(){
+        return drops;
+    }
+
+    public void setDrops(List<String>[] newDrops){
+        drops = newDrops;
     }
 
     @Override

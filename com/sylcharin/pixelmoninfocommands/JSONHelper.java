@@ -23,21 +23,27 @@ public class JSONHelper {
     private static BetterSpawnerConfig betterSpawnerConfig = null;
 
     private final Path MINECRAFT_MODS_PATH = Paths.get(System.getProperty("user.dir") + "/mods");
-    private static final String LOCATION_OF_SPAWN_JSONS_IN_JAR = "assets/pixelmon/spawning/".toUpperCase();
+    private static final String LOCATION_OF_SPAWN_JSONS_IN_JAR = "assets/pixelmon/spawning/".toLowerCase();
+    private static final String LOCATION_OF_DROP_JSONS_IN_JAR = "assets/pixelmon/drops/pokedrops.json".toLowerCase();
     private static final List<JarEntry> SPAWN_JSON_FILES = new ArrayList<>();
+    private static JarEntry DROPS_JSON_FILES = null;
     private static JarFile pixelmonJar;
 
     protected static String betterSpawnerConfigError;
     protected static String pixelmonJarError;
+    protected static String buildJSONListError;
 
     private static final TreeMap<String, Pixelmon> PIXELMON = new TreeMap<>();
 
     private JSONHelper() throws URISyntaxException {
         parseBetterSpawnerConfig();
-        pixelmonJar = getPixelmonJar();
-        if (betterSpawnerConfigError == null && pixelmonJarError == null) {
+        if (betterSpawnerConfigError == null) pixelmonJar = getPixelmonJar();
+        if (pixelmonJarError == null) {
             buildJSONList();
-            buildPixelmonMap();
+            if (buildJSONListError == null) {
+                buildPixelmonMap();
+                buildDropList();
+            }
         }
     }
 
@@ -102,10 +108,17 @@ public class JSONHelper {
         //Stream isolates all of the pokemon spawn json files into a list of JarEntries
         pixelmonJar.stream()
                 .filter(filePath -> {
-                    String filePathString = filePath.getName().toUpperCase();
-                    return filePathString.startsWith(LOCATION_OF_SPAWN_JSONS_IN_JAR) && filePathString.endsWith(".JSON");
+                    String filePathString = filePath.getName().toLowerCase();
+                    return (filePathString.startsWith(LOCATION_OF_SPAWN_JSONS_IN_JAR) && filePathString.endsWith(".json")) || filePathString.equals(LOCATION_OF_DROP_JSONS_IN_JAR);
                 })
-                .forEach(SPAWN_JSON_FILES::add);
+                .forEach(file -> {
+                    if (file.getName().contains("pokedrops")){
+                        DROPS_JSON_FILES = new JarEntry(file);
+                    }
+                    else {
+                        SPAWN_JSON_FILES.add(file);
+                    }
+                });
     }
 
     protected static void buildPixelmonMap(){
@@ -125,6 +138,46 @@ public class JSONHelper {
 
             }
         });
+    }
+
+    protected static void buildDropList(){
+        try (JsonReader reader = new JsonReader(new InputStreamReader(pixelmonJar.getInputStream(DROPS_JSON_FILES)))){
+            Pixelmon currentPixelmon = null;
+            Map<String, String> blockMap = Enums.BLOCK_MAP;
+            reader.beginArray();    //Begins the array of pokemon entries
+            while (reader.hasNext()) {
+                reader.beginObject();
+                while (reader.hasNext()) {
+                    String currentName = reader.nextName();
+                    String currentValue = reader.nextString();
+                    if (currentName.equals("pokemon")) {
+                        currentPixelmon = PIXELMON.get(currentValue);
+                    }
+                    if (currentPixelmon != null && currentName.contains("drop")) {
+                        currentValue = JSONHelper.formatTitleCase(currentValue);
+                        if (blockMap.containsKey(currentValue)) currentValue = blockMap.get(currentValue);
+
+                        if (currentName.equals("maindropdata")) {
+                            currentPixelmon.getDrops()[Enums.DropType.valueOf("Normal").ordinal()].add(currentValue);
+                        } else if (currentName.equals("raredropdata")) {
+                            currentPixelmon.getDrops()[Enums.DropType.valueOf("Rare").ordinal()].add(currentValue);
+
+                        } else if (currentName.startsWith("opt") && currentName.endsWith("data")) {
+                            currentPixelmon.getDrops()[Enums.DropType.valueOf("Optional").ordinal()].add(currentValue);
+                        }
+                    }
+                    else {
+//                        reader.skipValue();
+//                        reader.skipValue();
+                    }
+                }
+                reader.endObject();
+            }
+            reader.endArray();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected static HashMap<String, ArrayList<Object>>[] parseSpawnInfos(Object[] spawnInfos){
@@ -221,7 +274,7 @@ public class JSONHelper {
     public static String formatTitleCase(String target){
         //Remove things like "minecraft:" and "pixelmon:"
         if (target.contains(":")) {
-            target = target.substring(target.lastIndexOf(":") + 1);
+            target = target.substring(target.indexOf(":") + 1);
         }
 
         target = target.replaceAll("_", " ");                       //Replace underscores with spaces
@@ -243,6 +296,11 @@ public class JSONHelper {
         }
         if (target.equals("Mimejr")) target = "MimeJr";   //Account for MimeJr edge case
         if (target.equals("Mesa (bryce)")) target = "Mesa (Bryce)";   //Another edge case
+        return target;
+    }
+
+    public static String formatForSearching(String target){
+        target = target.replaceAll(" ", "").replaceAll("_", "").toLowerCase();
         return target;
     }
 
