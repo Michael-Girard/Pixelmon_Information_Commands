@@ -32,4 +32,6 @@
   
 2.01: Corrected spacing in the spawn info output when the pixelmon has no level range.  
 
-2.02: Added Ho-oh edge case because of the dash. Added additional ways to search for Bryce Mesa. Command returns the usage of the command when using the command without arguments.
+2.02: Added Ho-oh edge case because of the dash. Added additional ways to search for Bryce Mesa. Command returns the usage of the command when using the command without arguments.  
+  
+2.03: A few cosmetic changes.
