@@ -111,7 +111,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
                         }
                         else{
                             pixelmonInfo.append("\u00A7aLevel\u00A7f: \u00A7e");
-                            pixelmonInfo.append(level != null ? level + "\n": "?");
+                            pixelmonInfo.append(level != null ? level.toString().substring(1, level.toString().length() - 1) + "\n": "?");
                         }
 
                         pixelmonInfo.append("\u00A7aBiomes\u00A7f: \u00A7e");
