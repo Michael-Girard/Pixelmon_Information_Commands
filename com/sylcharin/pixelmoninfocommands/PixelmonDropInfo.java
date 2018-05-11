@@ -39,6 +39,8 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
         TreeMap<String, Pixelmon> monMap = JSONHelper.getPixelmon();
         String argument = JSONHelper.formatTitleCase(args[0]);
 
+
+
         //Check to see if the argument a pixelmon
         monMap.values().stream().filter(pixelmon -> {
             if (pixelmon.getId().equals(argument)) {
@@ -83,7 +85,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
                 dropInfo.append(matches[index - 1]);
 
                 if (index != matches.length) {
-                    dropInfo.append(", \u00A7e");
+                    dropInfo.append("\u00A7f, \u00A7e");
                     if (index % 3 == 0) dropInfo.append("\n\u00A7e ");
                 }
             }
@@ -119,6 +121,10 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args){
+        if (args.length == 0){
+            sender.sendMessage(new TextComponentString(getUsage(sender)));
+            return;
+        }
         checkForErrors(sender);
         StringBuilder results = getCommandResults(args, sender);
         try {

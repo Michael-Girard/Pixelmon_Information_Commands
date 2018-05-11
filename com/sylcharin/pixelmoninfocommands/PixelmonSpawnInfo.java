@@ -284,6 +284,10 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args){
+        if (args.length == 0){
+            sender.sendMessage(new TextComponentString(getUsage(sender)));
+            return;
+        }
         checkForErrors(sender);
         StringBuilder results = getCommandResults(args);
         try {

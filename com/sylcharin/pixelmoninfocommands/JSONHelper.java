@@ -295,7 +295,8 @@ public class JSONHelper {
             target = sb.toString();
         }
         if (target.equals("Mimejr")) target = "MimeJr";   //Account for MimeJr edge case
-        if (target.equals("Mesa (bryce)")) target = "Mesa (Bryce)";   //Another edge case
+        if (target.equals("Ho-oh")) target = "Ho-Oh";
+        if (target.equals("Mesa (bryce)") || target.equals("Mesa Bryce") || target.equals("Bryce Mesa")) target = "Mesa (Bryce)";   //Another edge case
         return target;
     }
 
