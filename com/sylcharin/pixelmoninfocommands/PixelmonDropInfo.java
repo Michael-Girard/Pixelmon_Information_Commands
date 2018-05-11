@@ -86,7 +86,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
 
                 if (index != matches.length) {
                     dropInfo.append("\u00A7f, \u00A7e");
-                    if (index % 3 == 0) dropInfo.append("\n\u00A7e ");
+                    if (index % 3 == 0) dropInfo.append("\n\u00A7e  ");
                 }
             }
 
@@ -94,7 +94,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
             return dropInfo;
         }
 
-        return new StringBuilder("There were no results found for that set of arguments.");
+        return new StringBuilder("There were no results found for " + argument + ".");
     }
 
     @Override
@@ -125,13 +125,14 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
             sender.sendMessage(new TextComponentString(getUsage(sender)));
             return;
         }
-        checkForErrors(sender);
-        StringBuilder results = getCommandResults(args, sender);
-        try {
-            sender.sendMessage(new TextComponentString(results.toString()));
-        }
-        catch (NullPointerException ex){
-            System.out.println(results.toString());
+        boolean errors = checkForErrors(sender);
+        if (!errors) {
+            StringBuilder results = getCommandResults(args, sender);
+            try {
+                sender.sendMessage(new TextComponentString(results.toString()));
+            } catch (NullPointerException ex) {
+                System.out.println(results.toString());
+            }
         }
     }
 

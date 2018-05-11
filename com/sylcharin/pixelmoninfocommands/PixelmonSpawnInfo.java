@@ -217,7 +217,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
             }
 
             if (results.isEmpty()) {
-                return new StringBuilder("There were no results found for that set of arguments.");
+                return new StringBuilder("There were no results found for " + Arrays.toString(args) + ".");
             }
             else {
 
@@ -288,13 +288,14 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
             sender.sendMessage(new TextComponentString(getUsage(sender)));
             return;
         }
-        checkForErrors(sender);
-        StringBuilder results = getCommandResults(args);
-        try {
-            sender.sendMessage(new TextComponentString(results.toString()));
-        }
-        catch (NullPointerException ex){
-            System.out.println(results.toString());
+        boolean errors = checkForErrors(sender);
+        if (!errors) {
+            StringBuilder results = getCommandResults(args);
+            try {
+                sender.sendMessage(new TextComponentString(results.toString()));
+            } catch (NullPointerException ex) {
+                System.out.println(results.toString());
+            }
         }
     }
 
