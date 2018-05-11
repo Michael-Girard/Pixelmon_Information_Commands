@@ -30,4 +30,6 @@
   2) New mcmod.info stuff, so the mod looks better in the mod info screen, includes both commands in a single mod, and gives credit to the Pixelmon Reforged Dev Team for Pixelmonmod.
   3) Code is over in the Pixelmon_Information_Commands repository now. I learned how Git works so I can actually make proper use of the version control stuff instead of just using this as a file upload site.
   
-2.01: Corrected spacing in the spawn info output when the pixelmon has no level range.
+2.01: Corrected spacing in the spawn info output when the pixelmon has no level range.  
+
+2.02: Added Ho-oh edge case because of the dash. Added additional ways to search for Bryce Mesa. Command returns the usage of the command when using the command without arguments.
