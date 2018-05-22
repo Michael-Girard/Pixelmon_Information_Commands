@@ -1,0 +1,5 @@
+Screenshots of some of the results returned from this mod's commands. This includes...  
+1) Searching for spawns by Pixelmon name.
+2) Searching for spawns by spawn conditions.
+3) Searching for drops by item name.
+4) Searching for drops by Pixelmon name.
