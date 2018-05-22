@@ -54,6 +54,8 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
 
         TreeMap<String, Pixelmon> monMap = JSONHelper.getPixelmon();
 
+        //If the tag supplied was of type "name", which is to say the name of a Pixelmon, we get that Pixelmon's
+        // spawn information and return it.
         if (tagMap.values().contains(Enums.JSONTag.name)){
             StringBuilder pixelmonInfo = new StringBuilder();
             tagMap.keySet().stream().forEach(key -> {
@@ -166,7 +168,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
                     ArrayList<String> tags = new ArrayList<>(tagMap.keySet());
                     for (int index = 0, matches = 0; index < tags.size(); index++) {
                         //If the spawnConditions contain that JSONTag AND the list of spawn conditions
-                        //  corresponding to the JSONTag contains the condition the user was searching
+                        //  corresponding contains the condition the user was searching
                         //  for, add that pixelmon to the resultSet under that JSONTag
                         //If no tag list exists, the pixelmon normally spawns in all of the tag, such
                         //  as all biomes, or in all weathers, so add it
@@ -254,7 +256,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
                         index = 0;
                     }
                 }
-                pixelmonList.delete(pixelmonList.length() - 4, pixelmonList.length()).append(".");
+                pixelmonList.delete(pixelmonList.length() - 2, pixelmonList.length()).append(".");
                 return pixelmonList;
             }
         }

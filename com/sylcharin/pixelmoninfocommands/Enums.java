@@ -155,7 +155,7 @@ public class Enums {
         BIOME_MAP.put(Biomes.mutated_extreme_hills_with_trees, "Extreme Hills + M");
         BIOME_MAP.put(Biomes.mutated_forest, "Flower Forest");
         BIOME_MAP.put(Biomes.forest_hills, "Forest Hills M");
-        BIOME_MAP.put(Biomes.mutated_ice_flats, "Ice Spikes Plains");
+        BIOME_MAP.put(Biomes.mutated_ice_flats, "Ice Plains Spikes");
         BIOME_MAP.put(Biomes.mutated_jungle, "Jungle M");
         BIOME_MAP.put(Biomes.mutated_jungle_edge, "Jungle Edge M");
         BIOME_MAP.put(Biomes.mutated_mesa, "Mesa (Bryce)");
