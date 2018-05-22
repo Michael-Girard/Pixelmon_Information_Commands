@@ -12,4 +12,4 @@ Argument can be a Pixelmon name OR an item name, with spaces separated by unders
   
   
 Known Issues:
-1) Tab auto-completion only works for Pixelmon names. The algorithm for performing the auto-completions does not seem to play well with multiple arguments. Attempting to code this to complete biomes causes problems like turning "Extreme H" into "Extreme Extreme Hills" and such. Perhaps I'll work on this later. Maybe it's possible to override whatever method forge is using to change what the player has written in the chat box, if I can locate the method.
+1) Tab auto-completion only works for Pixelmon names.
