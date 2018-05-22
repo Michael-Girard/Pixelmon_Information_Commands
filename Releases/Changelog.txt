@@ -38,4 +38,11 @@
   
 2.04: Fixed a formatting error when a pixelmon has no level range (like most legendaries).  
 
-2.05: Changed the argument required to search for "Ice Plains Spikes" from ice_spikes_plains to ice_plains_spikes. Fixed the ending parenthesis not properly being added to the list of pixelmon returned when searching by spawn conditions.
+2.05: Changed the argument required to search for "Ice Plains Spikes" from ice_spikes_plains to ice_plains_spikes. Fixed the ending parenthesis not properly being added to the list of pixelmon returned when searching by spawn conditions.  
+
+2.1: If you use "/drops" with no argument, the mod checks to see if you're holding an item in your main hand. If you are, it looks up that item instead of displaying the command usage.  
+The next change was more significant:  
+Before this version, the mod only loaded Pixelmon information for Pixelmon with a JSON file in the spawning folder. This resulted in the inability to look up drops for Pixelmon that do not spawn naturally, such as Machamp. Instead, it give an error saying that it couldn't recognize Machamp as an argument. This has been corrected and now the program loads Pixelmon information for both the JSON files in the spawning folder and the drops.json file. This required the addition of the boolean variable "isNaturallySpawning" for each Pixelmon and some moderate changes to a number of algorithms used to get the information.
+Additionally, edge-cases were added for certain Pixelmon that do not spawn naturally, but have structures used to spawn them. Mewtwo, the bird trio, and the creation trio. Whereas most unnaturally-spawning Pixelmon will say they don't naturally spawn, these legendaries will display their level, what object is needed to summon them, and what structure the object needs to be used on.  
+
+2.11: Cosmetic changes.

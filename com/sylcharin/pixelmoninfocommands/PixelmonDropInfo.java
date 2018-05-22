@@ -3,6 +3,7 @@ package com.sylcharin.pixelmoninfocommands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -13,10 +14,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Sylcharin
@@ -52,7 +50,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
             List<String>[] dropList = pixelmon.getDrops();
             Enums.DropType[] dropTypes = Enums.DropType.values();
 
-            dropInfo.append("-----------\n\u00A7a").append(pixelmon.getId()).append("\u00A7f\n-----------\n");
+            dropInfo.append("----------\u00A7a").append(pixelmon.getId()).append("\u00A7f----------\n");
             for (int index = 0; index < dropList.length; index++) {
                 if (!dropList[index].isEmpty()) {
                     String dropType = dropTypes[index].toString();
@@ -61,7 +59,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
                         dropInfo.append(dropList[index].get(index2));
                         if (index2 + 1 != dropList[index].size()) dropInfo.append(", ");
                     }
-                    dropInfo.append("\u00A7f\n");
+                    if (index + 1 != dropList.length) dropInfo.append("\u00A7f\n");
                 }
             }
         });
@@ -78,7 +76,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
         });
 
         if (!matchSet.isEmpty()){
-            dropInfo.append("-----------\n").append("Pixelmon that drop \u00A7a").append(argument).append(":").append("\u00A7f\n\u00A7e  ");
+            dropInfo.append("---Pixelmon that drop \u00A7a").append(argument).append("\u00A7f---\n\u00A7e  ");
 
             Object[] matches = matchSet.toArray();
             for (int index = 1; index < matches.length + 1; index++) {
@@ -90,7 +88,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
                 }
             }
 
-            dropInfo.append("\n").append("\u00A7f-----------");
+            //dropInfo.append("\n").append("\u00A7f-----------");
             return dropInfo;
         }
 
@@ -109,9 +107,10 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/drops [argument 1]\n" +
-                "The Argument can be a Pixelmon name an item name.\n" +
-                "Item names with spaces should be separated by underscores. Eg: \"Sun_Stone\"";
+        return "/drops [argument]\n" +
+                "The argument can be a Pixelmon name or an item name. " +
+                "If no argument is given, the command looks the item held by your main hand. " +
+                "Item names with spaces should be separated by underscores: \"Sun_Stone\".";
     }
 
     @Override
@@ -122,8 +121,18 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args){
         if (args.length == 0){
-            sender.sendMessage(new TextComponentString(getUsage(sender)));
-            return;
+            Iterator<ItemStack> heldItems = sender.getCommandSenderEntity().getHeldEquipment().iterator();
+
+            //No need to check if the iterator has next. If the player is not holding an item, it return "Air".
+            String item = heldItems.next().getDisplayName();
+            if (item.equals("Air")){
+                //Send the usage message
+                sender.sendMessage(new TextComponentString(getUsage(sender)));
+                return;
+            }
+            else {
+                args = new String[]{JSONHelper.formatTitleCase(item)};
+            }
         }
         boolean errors = checkForErrors(sender);
         if (!errors) {
