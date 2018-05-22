@@ -3,6 +3,7 @@ package com.sylcharin.pixelmoninfocommands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -13,10 +14,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Sylcharin
@@ -109,9 +107,10 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/drops [argument 1]\n" +
-                "The Argument can be a Pixelmon name an item name.\n" +
-                "Item names with spaces should be separated by underscores. Eg: \"Sun_Stone\"";
+        return "/drops [argument]\n" +
+                "The argument can be a Pixelmon name or an item name. " +
+                "If no argument is given, the command looks the item held by your main hand. " +
+                "Item names with spaces should be separated by underscores: \"Sun_Stone\".";
     }
 
     @Override
@@ -122,8 +121,18 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args){
         if (args.length == 0){
-            sender.sendMessage(new TextComponentString(getUsage(sender)));
-            return;
+            Iterator<ItemStack> heldItems = sender.getCommandSenderEntity().getHeldEquipment().iterator();
+
+            //No need to check if the iterator has next. If the player is not holding an item, it return "Air".
+            String item = heldItems.next().getDisplayName();
+            if (item.equals("Air")){
+                //Send the usage message
+                sender.sendMessage(new TextComponentString(getUsage(sender)));
+                return;
+            }
+            else {
+                args = new String[]{JSONHelper.formatTitleCase(item)};
+            }
         }
         boolean errors = checkForErrors(sender);
         if (!errors) {

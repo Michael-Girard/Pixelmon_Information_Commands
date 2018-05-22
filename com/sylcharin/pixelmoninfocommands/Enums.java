@@ -15,74 +15,74 @@ public class Enums {
 
     private Enums(){}
 
-    public static void populateTagTypes(HashMap<String, JSONTag> results, String[] tags) throws IllegalArgumentException{
+    public static void populateTagTypes(HashMap<String, JSONTag> results, String[] args) throws IllegalArgumentException{
         Boolean error = false;
         TreeSet<String> unknownTags = null;
 
-        for (String tag : tags) {
+        for (String arg : args) {
             try {
                 TreeMap<String, Pixelmon> monMap = JSONHelper.getPixelmon();
-                if (monMap.keySet().stream().anyMatch(tag::equals)) {
+                if (monMap.keySet().stream().anyMatch(arg::equals)) {
                     if (results.values().contains(JSONTag.name)){
                         error = true;
                     }
                     if (results.values().contains(JSONTag.stringBiomes)){
                         error = true;
                     }
-                    results.put(tag, JSONTag.name);
+                    results.put(arg, JSONTag.name);
                     continue;
                 }
             } catch (IllegalArgumentException ex) {            }
 
             try {
-                if (BIOME_MAP.values().stream().anyMatch(tag::equals)) {
+                if (BIOME_MAP.values().stream().anyMatch(arg::equals)) {
                     if (results.values().contains(JSONTag.name)){
                         error = true;
                     }
-                    results.put(tag, JSONTag.stringBiomes);
+                    results.put(arg, JSONTag.stringBiomes);
                     continue;
                 }
             } catch (IllegalArgumentException ex) {            }
 
             try {
-                Times.valueOf(tag);
+                Times.valueOf(arg);
                 if (results.values().contains(JSONTag.name)){
                     error = true;
                 }
-                results.put(tag, JSONTag.times);
+                results.put(arg, JSONTag.times);
                 continue;
             } catch (IllegalArgumentException ex) {            }
 
             try {
-                Temperatures.valueOf(tag);
+                Temperatures.valueOf(arg);
                 if (results.values().contains(JSONTag.name)){
                     error = true;
                 }
-                results.put(tag, JSONTag.temperature);
+                results.put(arg, JSONTag.temperature);
                 continue;
             } catch (IllegalArgumentException ex) {            }
 
             try {
-                Weathers.valueOf(tag);
+                Weathers.valueOf(arg);
                 if (results.values().contains(JSONTag.name)){
                     error = true;
                 }
-                results.put(tag, JSONTag.weathers);
+                results.put(arg, JSONTag.weathers);
                 continue;
             } catch (IllegalArgumentException ex) {            }
 
             try {
-                Locations.valueOf(tag);
+                Locations.valueOf(arg);
                 if (results.values().contains(JSONTag.name)){
                     error = true;
                 }
-                results.put(tag, JSONTag.stringLocationTypes);
+                results.put(arg, JSONTag.stringLocationTypes);
                 continue;
             } catch (IllegalArgumentException ex) {            }
-            results.put(tag, null);
+            results.put(arg, null);
             error = true;
             if (unknownTags == null) unknownTags = new TreeSet<>();
-            unknownTags.add(tag);
+            unknownTags.add(arg);
         }
         if (error) throw new IllegalArgumentException((unknownTags == null) ? "" : unknownTags.toString());
     }
@@ -414,7 +414,9 @@ public class Enums {
         maxLevel,
         maxY,
         name,
+        neededItem,
         neededNearbyBlocks,
+        neededStructure,
         rarity,
         spawnInfos,
         spec,

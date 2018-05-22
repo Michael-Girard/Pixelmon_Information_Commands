@@ -152,8 +152,14 @@ public class JSONHelper {
                     String currentValue = reader.nextString();
                     if (currentName.equals("pokemon")) {
                         currentPixelmon = PIXELMON.get(currentValue);
+                        if (currentPixelmon == null){
+                            currentPixelmon = new Pixelmon();
+                            currentPixelmon.setId(currentValue);
+                            currentPixelmon.init();
+                            PIXELMON.put(currentValue, currentPixelmon);
+                        }
                     }
-                    if (currentPixelmon != null && currentName.contains("drop")) {
+                    if (currentName.contains("drop")) {
                         currentValue = JSONHelper.formatTitleCase(currentValue);
                         if (blockMap.containsKey(currentValue)) currentValue = blockMap.get(currentValue);
 
