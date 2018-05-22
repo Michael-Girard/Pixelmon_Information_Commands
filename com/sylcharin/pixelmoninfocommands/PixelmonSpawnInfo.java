@@ -332,7 +332,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
             sender.sendMessage(new TextComponentString("Tab Completions are only functional for looking" +
                 " up single Pixelmon names and cannot be used for multiple arguments."));
         }
-        else {
+        else  if (!args[0].trim().isEmpty()){
             String argument = JSONHelper.formatTitleCase(args[0]);
 
             //Grab the pixelmon map

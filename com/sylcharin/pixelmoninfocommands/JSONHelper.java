@@ -285,7 +285,12 @@ public class JSONHelper {
 
         target = target.replaceAll("_", " ");                       //Replace underscores with spaces
         target = target.toLowerCase();                                                //Lowercase all letters
-        target = target.substring(0, 1).toUpperCase() + target.substring(1);   //Capitalize first letter
+        if (target.length() == 1){
+            target = target.toUpperCase();
+        }
+        else if (target.length() > 1){
+            target = target.substring(0, 1).toUpperCase() + target.substring(1);   //Capitalize first letter
+        }
 
         //The following code converts the strings to Title Case
         if (target.contains(" ")) {
