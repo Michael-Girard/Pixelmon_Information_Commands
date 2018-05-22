@@ -50,7 +50,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
             List<String>[] dropList = pixelmon.getDrops();
             Enums.DropType[] dropTypes = Enums.DropType.values();
 
-            dropInfo.append("-----------\n\u00A7a").append(pixelmon.getId()).append("\u00A7f\n-----------\n");
+            dropInfo.append("----------\u00A7a").append(pixelmon.getId()).append("\u00A7f----------\n");
             for (int index = 0; index < dropList.length; index++) {
                 if (!dropList[index].isEmpty()) {
                     String dropType = dropTypes[index].toString();
@@ -59,7 +59,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
                         dropInfo.append(dropList[index].get(index2));
                         if (index2 + 1 != dropList[index].size()) dropInfo.append(", ");
                     }
-                    dropInfo.append("\u00A7f\n");
+                    if (index + 1 != dropList.length) dropInfo.append("\u00A7f\n");
                 }
             }
         });
@@ -76,7 +76,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
         });
 
         if (!matchSet.isEmpty()){
-            dropInfo.append("-----------\n").append("Pixelmon that drop \u00A7a").append(argument).append(":").append("\u00A7f\n\u00A7e  ");
+            dropInfo.append("---Pixelmon that drop \u00A7a").append(argument).append("\u00A7f---\n\u00A7e  ");
 
             Object[] matches = matchSet.toArray();
             for (int index = 1; index < matches.length + 1; index++) {
@@ -88,7 +88,7 @@ public class PixelmonDropInfo extends CommandBase implements IClientCommand{
                 }
             }
 
-            dropInfo.append("\n").append("\u00A7f-----------");
+            //dropInfo.append("\n").append("\u00A7f-----------");
             return dropInfo;
         }
 

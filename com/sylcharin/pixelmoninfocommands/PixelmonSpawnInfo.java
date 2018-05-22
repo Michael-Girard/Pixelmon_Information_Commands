@@ -65,7 +65,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
                 if (monMap.keySet().contains(key)){
                     Pixelmon pixelmon = monMap.get(key);
                     TreeMap<String, Double> biomeRarities = new TreeMap<>();
-                    results.append("-----------\n\u00A7a").append(pixelmon.getId()).append("\u00A7f\n-----------\n");
+                    results.append("----------\u00A7a").append(pixelmon.getId()).append("\u00A7f----------\n");
 
                     for (int index = 0; index < pixelmon.getInformation().size(); index++) {
                         HashMap<String, ArrayList<Object>> spawnSet = pixelmon.getInformation().get(index);
@@ -86,7 +86,7 @@ public class PixelmonSpawnInfo extends CommandBase implements IClientCommand{
                         Object neededItem = ((HashMap) spawnSet).get(Enums.JSONTag.neededItem.toString());
 
                         if (!pixelmon.isNaturallySpawning() && neededStructure == null){
-                            results.append(args[0]).append(" does not spawn naturally");
+                            results.append("\u00A7c").append(args[0]).append(" does not spawn naturally.");
                             return;
                         }
 
