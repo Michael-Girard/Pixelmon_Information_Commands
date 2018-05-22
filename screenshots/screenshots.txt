@@ -3,3 +3,5 @@ Screenshots of some of the results returned from this mod's commands. This inclu
 2) Searching for spawns by spawn conditions.
 3) Searching for drops by item name.
 4) Searching for drops by Pixelmon name.
+
+The comparison screenshots are from WertFuzzy's bot on the LimitlessMC server discord.
