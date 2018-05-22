@@ -36,4 +36,6 @@
   
 2.03: A few cosmetic changes.
   
-2.04: Fixed a formatting error when a pixelmon has no level range (like most legendaries).
+2.04: Fixed a formatting error when a pixelmon has no level range (like most legendaries).  
+
+2.05: Changed the argument required to search for "Ice Plains Spikes" from ice_spikes_plains to ice_plains_spikes. Fixed the ending parenthesis not properly being added to the list of pixelmon returned when searching by spawn conditions.
