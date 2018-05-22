@@ -35,3 +35,5 @@
 2.02: Added Ho-oh edge case because of the dash. Added additional ways to search for Bryce Mesa. Command returns the usage of the command when using the command without arguments.  
   
 2.03: A few cosmetic changes.
+  
+2.04: Fixed a formatting error when a pixelmon has no level range (like most legendaries).
